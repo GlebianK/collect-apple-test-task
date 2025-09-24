@@ -10,6 +10,8 @@ public class Apple : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Collider2D col;
 
+    public float RotTimer => rotTimer;
+
     private void OnEnable()
     {
         StartCoroutine(CountdownToRot());
@@ -17,7 +19,11 @@ public class Apple : MonoBehaviour
 
     private IEnumerator CountdownToRot() // корутина гниени€ €блок
     {
-        yield return new WaitForSeconds(rotTimer);
+        while (rotTimer > 0)
+        {
+            yield return new WaitForSeconds(1f);
+            rotTimer--;
+        }
         sr.enabled = false;
         rb.gravityScale = 0;
         col.enabled = false;
@@ -30,6 +36,6 @@ public class Apple : MonoBehaviour
     private void OnDestroy()
     {
         StopAllCoroutines();
-        Debug.Log($"{gameObject.name} was destroyed!");
+        //Debug.Log($"{gameObject.name} was destroyed!");
     }
 }

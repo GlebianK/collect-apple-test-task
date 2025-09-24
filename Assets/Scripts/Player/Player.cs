@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private CharacterController cc;
+    [SerializeField] private Rigidbody2D rb;
     [SerializeField] private float playerSpeed;
     [SerializeField] private Inventory playerInventory;
 
@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
         direction = Vector2.zero;
         collectablesToCollect = new();
 
-        if (cc == null)
+        if (rb == null)
             throw new System.ArgumentNullException("No CharacterController found!");
 
         if (playerInventory == null)
@@ -32,15 +32,14 @@ public class Player : MonoBehaviour
 
     private void MovePlayer()
     {
-        Vector3 movementVector = new Vector3(direction.x, direction.y, 0);
-        cc.Move(movementVector * (playerSpeed * Time.deltaTime));
+        rb.velocityX = direction.x * (playerSpeed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.CompareTag("Collectable"))
         {
-            // TODO: подбор коллектабла
+            collectablesToCollect.Add(col.gameObject);
             canCollect = true;
         }
     }
@@ -49,6 +48,9 @@ public class Player : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Collectable"))
         {
+            if (collectablesToCollect.Contains(col.gameObject))
+                collectablesToCollect.Remove(col.gameObject);
+
             if (collectablesToCollect.Count == 0)
                 canCollect = false;
         }
@@ -70,10 +72,10 @@ public class Player : MonoBehaviour
     {
         if (context.performed)
         {
-            if (canCollect)
+            if (canCollect && !playerInventory.IsFull)
             {
-                // TODO: добавление предметов в инвентарь
-
+                playerInventory.AddItem(collectablesToCollect[0]);
+                Destroy(collectablesToCollect[0]);
             }
         }
     }
