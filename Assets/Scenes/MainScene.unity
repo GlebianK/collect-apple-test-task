@@ -621,7 +621,7 @@ GameObject:
   - component: {fileID: 1736939973}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -786,6 +786,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cc: {fileID: 1736939972}
   playerSpeed: 15
+  playerInventory: {fileID: 1736939975}
 --- !u!114 &1736939975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -798,6 +799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99c34c01c13b7df41af8f9faab36a6fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryCapacity: 5
 --- !u!1001 &4821395241924288520
 PrefabInstance:
   m_ObjectHideFlags: 0
