@@ -9,6 +9,9 @@ public class Inventory : MonoBehaviour
 
     private List<InventoryItem> inventoryItems;
     private bool isFull;
+    private bool shouldRot;
+
+    private List<float> rotTimers;
 
     public bool IsFull => isFull;
     public UnityEvent ItemAdded;
@@ -17,7 +20,10 @@ public class Inventory : MonoBehaviour
     private void Awake()
     {
         inventoryItems = new();
+        rotTimers = new();
         isFull = false;
+        shouldRot = true;
+        StartCoroutine(RotItem());
     }
 
     public void AddItem(GameObject itemToAdd)
@@ -31,28 +37,48 @@ public class Inventory : MonoBehaviour
             InventoryItem item = new InventoryItem();
             item.SetItemLifetime(apple.RotTimer);
             inventoryItems.Add(item);
+            rotTimers.Add(apple.RotTimer);
             ItemAdded.Invoke();
             
             if (inventoryItems.Count == inventoryCapacity)
                 isFull = true;
-
-            StartCoroutine(RotItem(item));
         }
         else
             Debug.LogError($"Can't add apple! Object is {itemToAdd.name}");
         
     }
 
-    private void RemoveItem(InventoryItem itemToRemove)
+    private void RemoveItem(int index)
     {
-        ItemRemoved.Invoke(inventoryItems.IndexOf(itemToRemove));
-        inventoryItems.Remove(itemToRemove);
+        ItemRemoved.Invoke(index);
+        inventoryItems.RemoveAt(index);
         isFull = false;
     }
 
-    private IEnumerator RotItem(InventoryItem item)
+    private void OnDisable()
     {
-        yield return new WaitForSeconds(item.Lifetime);
-        RemoveItem(item);
+        shouldRot = false;
+    }
+
+    private IEnumerator RotItem() // корутина гниени€ €блок в инвентаре
+    {
+        while (shouldRot)
+        {
+            if (rotTimers != null && rotTimers.Count > 0)
+            {
+                for (int i = 0; i < rotTimers.Count; i++)
+                {
+                    rotTimers[i] -= 1;
+
+                    if (rotTimers[i] == 0)
+                    {
+                        RemoveItem(i);
+                        rotTimers.RemoveAt(i);
+                    }
+                }
+            }
+            yield return new WaitForSeconds(1f);
+        }
+
     }
 }

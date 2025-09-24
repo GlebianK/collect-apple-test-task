@@ -4889,7 +4889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f4cab7323e8cd048b9e91b55d19aa6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotTimer: 10
+  rotTimer: 15
   particles: {fileID: 5233989021362553586}
   sr: {fileID: 4454234765571532106}
   rb: {fileID: 3751877522374526727}

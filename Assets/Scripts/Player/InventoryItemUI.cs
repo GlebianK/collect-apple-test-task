@@ -18,6 +18,7 @@ public class InventoryItemUI : MonoBehaviour
             throw new System.Exception("Smth wrong with sprites!");
 
         selfImage.sprite = sprites[0];
+        isEmpty = true;
     }
 
     public void SetSlot()
