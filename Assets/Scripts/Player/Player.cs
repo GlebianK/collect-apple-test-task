@@ -25,14 +25,14 @@ public class Player : MonoBehaviour
             throw new System.ArgumentNullException("No inventory found!");
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         MovePlayer();
     }
 
     private void MovePlayer()
     {
-        rb.velocityX = direction.x * (playerSpeed * Time.deltaTime);
+        rb.velocityX = direction.x * (playerSpeed * Time.fixedDeltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D col)

@@ -1629,7 +1629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1736939977}
-  playerSpeed: 250
+  playerSpeed: 200
   playerInventory: {fileID: 1736939975}
 --- !u!114 &1736939975
 MonoBehaviour:
